@@ -129,5 +129,13 @@ void PruebaArboles(){
         cout<<i<<") Elemento: "<<arbol->GetChildren()[i]->GetData()._element<<
                 ", Frecuencia: "<<arbol->GetChildren()[i]->GetData()._frecuency<<endl;
     }
-
+    cout<<"Setear al hijo 2: "<<endl;
+    element=new TreeElement("ElOtroChamaco2", 6);
+    arbol3->SetData(*element);
+    cout<<"Ver Elemenetos del Arbol Hijo 2 cambiado: "<<endl;
+    cout<<"Elemento: "<<arbol3->GetData()._element<<" Frecuencia: "<<arbol3->GetData()._frecuency<<endl;
+    for(int i=0; i<arbol->GetChildren().size(); i++){
+        cout<<i<<") Elemento: "<<arbol->GetChildren()[i]->GetData()._element<<
+                ", Frecuencia: "<<arbol->GetChildren()[i]->GetData()._frecuency<<endl;
+    }
 }

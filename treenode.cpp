@@ -58,8 +58,8 @@ TreeElement TreeNode::GetData()const{
     return *_data;
 }
 
-void TreeNode::SetData(const TreeElement&){
-
+void TreeNode::SetData(const TreeElement& data){
+    _data=new TreeElement(data._element,data._frecuency);
 }
 
 bool TreeNode::IsRoot()const{
