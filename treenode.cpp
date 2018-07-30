@@ -63,9 +63,15 @@ void TreeNode::SetData(const TreeElement& data){
 }
 
 bool TreeNode::IsRoot()const{
-
+    if(_parent==nullptr)
+        return true;
+    else
+        return false;
 }
 
 bool TreeNode::IsLeaf()const{
-
+    if(_children.size()==0)
+        return true;
+    else
+        return false;
 }

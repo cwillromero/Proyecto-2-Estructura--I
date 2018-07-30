@@ -138,4 +138,12 @@ void PruebaArboles(){
         cout<<i<<") Elemento: "<<arbol->GetChildren()[i]->GetData()._element<<
                 ", Frecuencia: "<<arbol->GetChildren()[i]->GetData()._frecuency<<endl;
     }
+    cout<<"Comprobación Hojas"<<endl;
+    cout<<"False "<<false<<" True "<<true<<endl;
+    cout<<"Es Hoja? 1:"<<arbol2->IsLeaf()<<"Es Root? "<<arbol2->IsRoot()<<endl;
+    cout<<"Es Hoja? 2:"<<arbol3->IsLeaf()<<"Es Root? "<<arbol3->IsRoot()<<endl;
+
+    cout<<"Comprobación Root: "<<endl;
+    cout<<"False "<<false<<" True "<<true<<endl;
+    cout<<"Es Hoja? Root:"<<arbol->IsLeaf()<<"Es Root? "<<arbol->IsRoot()<<endl;
 }
