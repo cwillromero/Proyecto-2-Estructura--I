@@ -110,30 +110,41 @@ void PrintFrecuencies(vector <TreeElement*>& characters){
 
 void PruebaArboles(){
     cout<<"Agregar Arbol Sin Padre: "<<endl;
-    TreeElement* element=new TreeElement("ElPapi",56);    
+    TreeElement* element=new TreeElement("1",56);    
     TreeNode* arbol=new TreeNode(*element);
     cout<<"Ver Elemenetos del Arbol sin Padres: "<<endl;
     cout<<"Elemento: "<<arbol->GetData()._element<<" Frecuencia: "<<arbol->GetData()._frecuency<<endl;
+
     cout<<"Añadir Arbol Con Padre el arbol anterior: "<<endl;
-    element=new TreeElement("ElChamaco1", 3);
+    element=new TreeElement("2", 35);
     TreeNode* arbol2=new TreeNode(*element, arbol);
     cout<<"Ver Elemenetos del Arbol Hijo: "<<endl;
     cout<<"Elemento: "<<arbol2->GetData()._element<<" Frecuencia: "<<arbol2->GetData()._frecuency<<endl;
+
     cout<<"Añadir Arbol Con Padre el arbol 1: "<<endl;
-    element=new TreeElement("ElChamaco2", 3);
+    element=new TreeElement("3", 36);
     TreeNode* arbol3=new TreeNode(*element, arbol);
     cout<<"Ver Elemenetos del Arbol Hijo 2: "<<endl;
     cout<<"Elemento: "<<arbol3->GetData()._element<<" Frecuencia: "<<arbol3->GetData()._frecuency<<endl;
+
+    element=new TreeElement("4", 53);
+    TreeNode* arbol4=new TreeNode(*element, arbol);
+    cout<<"Ver Elemenetos del Arbol Hijo 3: "<<endl;
+    cout<<"Elemento: "<<arbol4->GetData()._element<<" Frecuencia: "<<arbol4->GetData()._frecuency<<endl;
+
     cout<<"---Hijos de El Papi---"<<endl;
     for(int i=0; i<arbol->GetChildren().size(); i++){
         cout<<i<<") Elemento: "<<arbol->GetChildren()[i]->GetData()._element<<
                 ", Frecuencia: "<<arbol->GetChildren()[i]->GetData()._frecuency<<endl;
     }
+
     cout<<"Setear al hijo 2: "<<endl;
-    element=new TreeElement("ElOtroChamaco2", 6);
+    element=new TreeElement("1", 876);
     arbol3->SetData(*element);
     cout<<"Ver Elemenetos del Arbol Hijo 2 cambiado: "<<endl;
     cout<<"Elemento: "<<arbol3->GetData()._element<<" Frecuencia: "<<arbol3->GetData()._frecuency<<endl;
+
+
     for(int i=0; i<arbol->GetChildren().size(); i++){
         cout<<i<<") Elemento: "<<arbol->GetChildren()[i]->GetData()._element<<
                 ", Frecuencia: "<<arbol->GetChildren()[i]->GetData()._frecuency<<endl;
@@ -142,8 +153,45 @@ void PruebaArboles(){
     cout<<"False "<<false<<" True "<<true<<endl;
     cout<<"Es Hoja? 1:"<<arbol2->IsLeaf()<<"Es Root? "<<arbol2->IsRoot()<<endl;
     cout<<"Es Hoja? 2:"<<arbol3->IsLeaf()<<"Es Root? "<<arbol3->IsRoot()<<endl;
+    cout<<"Es Hoja? 3:"<<arbol4->IsLeaf()<<"Es Root? "<<arbol4->IsRoot()<<endl;
 
     cout<<"Comprobación Root: "<<endl;
     cout<<"False "<<false<<" True "<<true<<endl;
     cout<<"Es Hoja? Root:"<<arbol->IsLeaf()<<"Es Root? "<<arbol->IsRoot()<<endl;
+
+    cout<<"Set parent 2:"<<endl;
+    arbol2->SetParent(arbol3);
+    cout<<"Hijos de 1:"<<endl;
+    for(int i=0; i<arbol->GetChildren().size(); i++){
+        cout<<i<<") Elemento: "<<arbol->GetChildren()[i]->GetData()._element<<
+                ", Frecuencia: "<<arbol->GetChildren()[i]->GetData()._frecuency<<endl;
+    }
+    cout<<"Hijos de 3:"<<endl;
+    for(int i=0; i<arbol3->GetChildren().size(); i++){
+        cout<<i<<") Elemento: "<<arbol3->GetChildren()[i]->GetData()._element<<
+                ", Frecuencia: "<<arbol3->GetChildren()[i]->GetData()._frecuency<<endl;
+    }
+
+    cout<<"Arbol 2 Agregar hijo:"<<endl;
+    arbol2->AddChild(*new TreeElement("5",43));
+    arbol2->AddChild(*new TreeElement("6",53));
+    cout<<"Hijos de 2:"<<endl;
+    for(int i=0; i<arbol2->GetChildren().size(); i++){
+        cout<<i<<") Elemento: "<<arbol2->GetChildren()[i]->GetData()._element<<
+                ", Frecuencia: "<<arbol2->GetChildren()[i]->GetData()._frecuency<<endl;
+    }
+
+    cout<<"Comprobación Hojas"<<endl;
+    cout<<"False "<<false<<" True "<<true<<endl;
+    cout<<"Es Hoja? 1:"<<arbol2->IsLeaf()<<"Es Root? "<<arbol2->IsRoot()<<endl;
+    cout<<"Es Hoja? 2:"<<arbol3->IsLeaf()<<"Es Root? "<<arbol3->IsRoot()<<endl;
+    cout<<"Es Hoja? 3:"<<arbol4->IsLeaf()<<"Es Root? "<<arbol4->IsRoot()<<endl;
+
+    cout<<"Probar Destructor"<<endl;
+    delete arbol3;
+    cout<<"Eliminado"<<endl;
+    delete arbol2;
+    cout<<"Eliminado"<<endl;
+    delete arbol;
+    cout<<"Eliminado"<<endl;
 }

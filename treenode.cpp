@@ -21,27 +21,36 @@ TreeNode::TreeNode(const TreeElement& data,TreeNode* parent){
 }
 
 TreeNode::~TreeNode(){
-
+    if(_children.size()==0){
+        for(int i=0; i<_children.size(); i++){
+            delete _children[i];
+        }
+    }
+    _children.clear();
+    if(_data!=nullptr)
+        delete _data;
 }
 
 vector<TreeNode*>& TreeNode::GetChildren(){
     return _children;
 } 
 
-void TreeNode::SetParent(TreeNode*){
-    
+void TreeNode::SetParent(TreeNode* parent){
+    for(int i=0; i<_parent->_children.size(); i++){
+        if(_parent->_children[i]==this){
+            for(int j=i; j<_parent->_children.size()-1; j++){
+                _parent->_children[j]=_parent->_children[j+1];
+            }
+            _parent->_children[_parent->_children.size()-1]=nullptr;
+        }
+    }
+    _parent->_children.pop_back();
+    _parent=parent;
+    _parent->AddChild(this);
 }
 
 void TreeNode::AddChild(const TreeElement& data){
     TreeNode* newChild=new TreeNode(data, this);
-    if(_children.size()==0){
-        _children.push_back(newChild);
-    }
-    else{
-        TreeNode* temp=_children[_children.size()-1];
-        _children[_children.size()-1]=newChild;
-        _children.push_back(temp);
-    }
 }
 
 void TreeNode::AddChild(TreeNode* child){
