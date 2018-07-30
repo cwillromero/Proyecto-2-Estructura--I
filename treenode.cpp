@@ -46,7 +46,13 @@ void TreeNode::SetParent(TreeNode* parent){
     }
     _parent->_children.pop_back();
     _parent=parent;
-    _parent->AddChild(this);
+    if(_parent->_children.size()==0){
+        _parent->_children.push_back(this);
+    }else{
+        TreeNode* temp=_parent->_children[_parent->_children.size()-1];
+        _parent->_children[_parent->_children.size()-1]=this;
+        _parent->_children.push_back(temp);
+    }
 }
 
 void TreeNode::AddChild(const TreeElement& data){
@@ -61,6 +67,7 @@ void TreeNode::AddChild(TreeNode* child){
         _children[_children.size()-1]=child;
         _children.push_back(temp);
     }
+    child->SetParent(this);
 }
 
 TreeElement TreeNode::GetData()const{

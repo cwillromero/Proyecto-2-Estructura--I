@@ -4,16 +4,16 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 using namespace std;
 
 string GetText(char*[]);
 void PrintFrecuencies(vector <TreeElement*>&);
 void PruebaArboles();
+void Huffman(vector <TreeElement*>);
 
 int main(int argc, char* argv[]){
-    PruebaArboles();
-    /*string text;
+    //PruebaArboles();
+    string text;
     if(argc<2){
         cout<<"Parámetros Insuficientes."<<endl;
         return 0;
@@ -75,9 +75,38 @@ int main(int argc, char* argv[]){
             } 
         }
     }
-    
     //Imprimir arreglo
-    PrintFrecuencies(characters);*/
+    PrintFrecuencies(characters);
+    vector<TreeNode> trees;
+    TreeNode* tree;
+    while (characters.size()>1){
+        stringstream name;
+        int frecuency;
+        TreeElement* node1=characters[characters.size()-1];
+        TreeElement* node2=characters[characters.size()-2];
+        name<<node1->_element<<node2->_element;
+        frecuency=node1->_frecuency+node2->_frecuency;
+        TreeElement* mix=new TreeElement(name.str(),frecuency);
+        cout<<"Element: "<<mix->_element<<" Frecuency: "<<mix->_frecuency<<endl;
+        characters.pop_back();
+        characters.pop_back();
+        characters.push_back(mix);
+        tree=new TreeNode(*mix);
+        tree->AddChild(*node2);
+        tree->AddChild(*node1);
+
+        for(int i=0;i<characters.size();i++){
+            for(int j=i+1;j<characters.size();j++){
+                if(characters[i]->_frecuency<characters[j]->_frecuency){     
+                TreeElement* temp=characters[i]; 
+                characters[i]=characters[j]; 
+                characters[j]=temp; 
+                } 
+            }
+        }
+        PrintFrecuencies(characters);
+
+    }
 }
 
 string GetText(char* argv[]){
@@ -89,7 +118,6 @@ string GetText(char* argv[]){
         while (!file.eof()) {
             getline(file,line);
             retVal<<line;
-            retVal<<endl;
         }
         file.close();
         return retVal.str();
@@ -105,7 +133,7 @@ void PrintFrecuencies(vector <TreeElement*>& characters){
         cont=cont+characters[j]->_frecuency;
         cout<<"Character: "<<characters[j]->_element<<"     Frecuency: "<<characters[j]->_frecuency<<endl;
     }
-    cout<<cont;
+    cout<<cont<<endl;
 }
 
 void PruebaArboles(){
@@ -195,3 +223,8 @@ void PruebaArboles(){
     delete arbol;
     cout<<"Eliminado"<<endl;
 }
+
+void Huffman(vector <TreeElement*> characters){
+}
+
+
