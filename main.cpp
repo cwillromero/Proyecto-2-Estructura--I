@@ -110,13 +110,24 @@ void PrintFrecuencies(vector <TreeElement*>& characters){
 
 void PruebaArboles(){
     cout<<"Agregar Arbol Sin Padre: "<<endl;
-    TreeElement* element=new TreeElement("Hola!",56);    
+    TreeElement* element=new TreeElement("ElPapi",56);    
     TreeNode* arbol=new TreeNode(*element);
     cout<<"Ver Elemenetos del Arbol sin Padres: "<<endl;
-    cout<<"Elemento: "<<arbol->GetData()._element<<"Frecuencia: "<<arbol->GetData()._frecuency<<endl;
-
-
-
-
+    cout<<"Elemento: "<<arbol->GetData()._element<<" Frecuencia: "<<arbol->GetData()._frecuency<<endl;
+    cout<<"Añadir Arbol Con Padre el arbol anterior: "<<endl;
+    element=new TreeElement("ElChamaco1", 3);
+    TreeNode* arbol2=new TreeNode(*element, arbol);
+    cout<<"Ver Elemenetos del Arbol Hijo: "<<endl;
+    cout<<"Elemento: "<<arbol2->GetData()._element<<" Frecuencia: "<<arbol2->GetData()._frecuency<<endl;
+    cout<<"Añadir Arbol Con Padre el arbol 1: "<<endl;
+    element=new TreeElement("ElChamaco2", 3);
+    TreeNode* arbol3=new TreeNode(*element, arbol);
+    cout<<"Ver Elemenetos del Arbol Hijo 2: "<<endl;
+    cout<<"Elemento: "<<arbol3->GetData()._element<<" Frecuencia: "<<arbol3->GetData()._frecuency<<endl;
+    cout<<"---Hijos de El Papi---"<<endl;
+    for(int i=0; i<arbol->GetChildren().size(); i++){
+        cout<<i<<") Elemento: "<<arbol->GetChildren()[i]->GetData()._element<<
+                ", Frecuencia: "<<arbol->GetChildren()[i]->GetData()._frecuency<<endl;
+    }
 
 }

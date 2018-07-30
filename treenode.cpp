@@ -17,19 +17,15 @@ TreeNode::TreeNode(const TreeElement& data){
 TreeNode::TreeNode(const TreeElement& data,TreeNode* parent){
     _parent=parent;
     _data=new TreeElement(data._element,data._frecuency);
-    _parent->_children.push_back(this);
+    _parent->AddChild(this);
 }
 
 TreeNode::~TreeNode(){
 
 }
 
-vector<TreeNode*>& TreeNode::GetChildren()const{
-    /*vector<TreeNode*> retval;
-    for(int i=0; i<_children.size(); i++){
-        retval.push_back(_children[i]);
-    }
-    return retval;*/
+vector<TreeNode*>& TreeNode::GetChildren(){
+    return _children;
 } 
 
 void TreeNode::SetParent(TreeNode*){
@@ -38,15 +34,24 @@ void TreeNode::SetParent(TreeNode*){
 
 void TreeNode::AddChild(const TreeElement& data){
     TreeNode* newChild=new TreeNode(data, this);
-    TreeNode* temp=_children[_children.size()-1];
-    _children[_children.size()-1]=newChild;
-    _children.push_back(temp);
+    if(_children.size()==0){
+        _children.push_back(newChild);
+    }
+    else{
+        TreeNode* temp=_children[_children.size()-1];
+        _children[_children.size()-1]=newChild;
+        _children.push_back(temp);
+    }
 }
 
 void TreeNode::AddChild(TreeNode* child){
-    TreeNode* temp=_children[_children.size()-1];
-    _children[_children.size()-1]=child;
-    _children.push_back(temp);
+    if(_children.size()==0){
+        _children.push_back(child);
+    }else{
+        TreeNode* temp=_children[_children.size()-1];
+        _children[_children.size()-1]=child;
+        _children.push_back(temp);
+    }
 }
 
 TreeElement TreeNode::GetData()const{

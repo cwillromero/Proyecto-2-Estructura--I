@@ -14,7 +14,7 @@ public:
 	TreeNode(const TreeElement&);
 	TreeNode(const TreeElement&,TreeNode*);
 	~TreeNode();
-	vector<TreeNode*>& GetChildren()const; 
+	vector<TreeNode*>& GetChildren(); 
 	void SetParent(TreeNode*);
 	void AddChild(const TreeElement&);
 	void AddChild(TreeNode*);
