@@ -33,7 +33,7 @@ int main(int argc, char* argv[]){
     sort(characters.begin(), characters.end(), SortByFrecuency);
     PrintFrecuencyVector(characters);
     tree=GetTree(characters);
-    //Huffman(tree,characters);
+    Huffman(tree,characters);
 }
 
 vector<string> GetText(char* argv[]){
@@ -49,7 +49,7 @@ vector<string> GetText(char* argv[]){
                 retVal.push_back("LF");
             }else if(int(character)==13){
                 retVal.push_back("CR");
-            }else{
+            }else if(int(character)>0){
                 retVal.push_back(string(1,character));
             }
         }
@@ -131,46 +131,21 @@ vector <TreeNode*>GetTree(vector <TreeElement*> characters){
 }
 
 void Huffman(vector <TreeNode*> treeNodes, vector <TreeElement*> characters){
+    //sort(characters.begin(), characters.end(), SortByElement);
     TreeNode* tree=treeNodes[0];
-    cout<<"*Element: "<<tree->GetData()._element<<" Frecuency: "<<tree->GetData()._frecuency<<endl;
-    sort(characters.begin(), characters.end(), SortByElement);
-    while(true){
+    /*while(true){
         if(tree->IsLeaf()){
             break;
         }else{    
+            if(characters[0]->_frecuency<=tree->GetData()._frecuency){
             tree=tree->GetChildren()[0];
-            cout<<"Element: "<<tree->GetData()._element<<" Frecuency: "<<tree->GetData()._frecuency<<endl;
-        }
-    }
-    //PrintFrecuencyVector(characters);
-    /*for(int i=0; i<characters.size(); i++){
-        while(true){
-            if(characters[i]->_frecuency>tree->GetData()._frecuency){
-                tree=tree->GetChildren()[0];
-                code<<"1";
             }else{
-                tree=tree->GetChildren()[1];
-                code<<"0";
-            }
-            if(strcmp(tree->GetData()._element.c_str(),characters[i]->_element.c_str())){
-                break;
+
             }
         }
-        cout<<"{Key: "<<characters[i]->_element<<", code: "<<code.str()<<"}"<<endl;
-        if(characters[4]->_frecuency>tree->GetData()._frecuency){
-                tree=tree->GetChildren()[1];
-                cout<<"0";
-            }else{
-                tree=tree->GetChildren()[0];
-                cout<<"1";
-            }
-            if(strcmp(tree->GetData()._element.c_str(),characters[1]->_element.c_str())){
-                cout<<"Si"<<endl;
-                break;
-            }else{
-                cout<<"Hola"<<endl;
-            }
     }*/
+    //PrintFrecuencyVector(characters);
+    
 }
 
 
