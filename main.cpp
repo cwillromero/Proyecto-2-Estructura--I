@@ -6,66 +6,79 @@
 #include <fstream>
 using namespace std;
 
-string GetText(char*[]);
-void PrintFrecuencies(vector <TreeElement*>&);
+vector<string> GetText(char*[]);
+vector <TreeElement*> GetFrecuencyVector(vector <string>);
+vector <TreeElement*> SortCharacters(vector <TreeElement*>);
+void PrintFrecuencyVector(vector <TreeElement*>);
+vector <TreeNode*>GetTree(vector <TreeElement*>);
+
 void PruebaArboles();
 void Huffman(vector <TreeElement*>);
 
 int main(int argc, char* argv[]){
-    //PruebaArboles();
-    string text;
+    vector<string> text;
     if(argc<2){
         cout<<"Parámetros Insuficientes."<<endl;
         return 0;
     }
     text=GetText(argv);
-    if(text=="")
+    if(text.size()<1)
         return 0;
-    cout<<text<<endl;
+
     vector <TreeElement*> characters;
-    TreeElement* element=new TreeElement(string(1,text[0]));
+    vector <TreeNode*> tree;
+    characters=GetFrecuencyVector(text);
+    characters=SortCharacters(characters);
+    PrintFrecuencyVector(characters);
+    tree=GetTree(characters);
+}
+
+vector<string> GetText(char* argv[]){
+    vector <string> retVal;
+    char character;
+    fstream file;
+    file.open (argv[1] , ios::in);
+    if (file.is_open()) {
+        while (file.get(character)) {
+            if(int(character)==32){
+                retVal.push_back("SP");
+            }else if(int(character)==10){
+                retVal.push_back("LF");
+            }else if(int(character)==13){
+                retVal.push_back("CR");
+            }else{
+                retVal.push_back(string(1,character));
+            }
+        }
+        file.close();
+    }
+    return retVal;
+}
+
+vector<TreeElement*> GetFrecuencyVector(vector<string> text){
+    vector <TreeElement*> characters;
+    TreeElement* element=new TreeElement(text[0]);
     characters.push_back(element);
     string character;
-    cout<<"Size Text"<<text.length()<<endl;
-    for(int i=1; i<text.length(); i++){
+    cout<<"Size Text"<<text.size()<<endl;
+    for(int i=1; i<text.size(); i++){
         int cont=0;
-        character=string(1,text[i]);
+        character=text[i];
         for(int j=0; j<characters.size(); j++){
             if(characters[j]->_element==character){
                 characters[j]->_frecuency++;
                 cont++;
             }
-            if(int(text[i])==32 && characters[j]->_element=="SP"){
-                characters[j]->_frecuency++;
-                cont++;
-            }
-            if(int(text[i])==10 && characters[j]->_element=="LF"){
-                characters[j]->_frecuency++;
-                cont++;
-            }
-            if(int(text[i])==13 && characters[j]->_element=="CR"){
-                characters[j]->_frecuency++;
-                cont++;
-            }
         }
         if(cont==0){
-            if(int(text[i])==32){
-                element=new TreeElement("SP");
-                characters.push_back(element);   
-            }else if(int(text[i])==10){
-                element=new TreeElement("LF");
-                characters.push_back(element);   
-            }else if(int(text[i])==13){
-                element=new TreeElement("CR");
-                characters.push_back(element);   
-            }else{
-                element=new TreeElement(character);
-                characters.push_back(element);
-            }
+            element=new TreeElement(character);
+            characters.push_back(element);
         }
     }
+    return characters;
+}
 
-    //Ordenar 
+vector<TreeElement*> SortCharacters(vector<TreeElement*> characters){
     for(int i=0;i<characters.size();i++){
         for(int j=i+1;j<characters.size();j++){
             if(characters[i]->_frecuency<characters[j]->_frecuency){     
@@ -82,75 +95,57 @@ int main(int argc, char* argv[]){
             }
         }
     }
-    //Imprimir arreglo
-    PrintFrecuencies(characters);
-    vector<TreeNode*> trees;
-    for(int i=0; i<characters.size(); i++){
-        trees.push_back(new TreeNode(*characters[i]));
-    }
-
-    TreeNode* tree;
-    while (characters.size()>1){
-        stringstream name;
-        int frecuency;
-        TreeElement* node1=characters[characters.size()-1];
-        TreeElement* node2=characters[characters.size()-2];
-        name<<node1->_element<<node2->_element;
-        frecuency=node1->_frecuency+node2->_frecuency;
-        TreeElement* mix=new TreeElement(name.str(),frecuency);
-        characters.pop_back();
-        characters.pop_back();
-        characters.push_back(mix);
-        tree=new TreeNode(*mix);
-        tree->AddChild(trees[trees.size()-2]);
-        tree->AddChild(trees[trees.size()-1]);
-        trees.pop_back();
-        trees.pop_back();
-        trees.push_back(tree);
-
-        for(int i=0;i<characters.size();i++){
-            for(int j=i+1;j<characters.size();j++){
-                if(characters[i]->_frecuency<characters[j]->_frecuency){
-                    TreeNode* tmp=trees[i];
-                    TreeElement* temp=characters[i]; 
-                    characters[i]=characters[j]; 
-                    trees[i]=trees[j];
-                    characters[j]=temp; 
-                    trees[j]=tmp;
-                }
-            }
-        }
-        PrintFrecuencies(characters);
-        cout<<"Element: "<<tree->GetData()._element<<" Frecuency: "<<tree->GetData()._frecuency<<endl;
-    }
+    return characters;
 }
 
-string GetText(char* argv[]){
-    stringstream retVal;
-    string line;
-    fstream file;
-    file.open (argv[1] , ios::in);
-    if (file.is_open()) {
-        while (!file.eof()) {
-            getline(file,line);
-            retVal<<line;
-            retVal<<endl;
-        }
-        file.close();
-        return retVal.str();
-    }else{
-    cout<<"No se pudo abrir el archivo."<<endl;
-    return "";
-    }
-}
-
-void PrintFrecuencies(vector <TreeElement*>& characters){
+void PrintFrecuencyVector(vector <TreeElement*> characters){
     int cont=0;
     for(int j=0; j<characters.size(); j++){
         cont=cont+characters[j]->_frecuency;
         cout<<"Character: "<<characters[j]->_element<<"     Frecuency: "<<characters[j]->_frecuency<<endl;
     }
     cout<<cont<<endl;
+}
+
+vector <TreeNode*>GetTree(vector <TreeElement*> characters){
+    vector<TreeNode*> treeVector;
+    for(int i=0; i<characters.size(); i++){
+        treeVector.push_back(new TreeNode(*characters[i]));
+    }
+    TreeNode* treeNode;
+    while (characters.size()>1){
+        stringstream nameTree;
+        int frecuency;
+        TreeElement* leftNode=characters[characters.size()-1];
+        characters.pop_back();
+        TreeElement* rightNode=characters[characters.size()-1];
+        nameTree<<leftNode->_element<<rightNode->_element;
+        frecuency=rightNode->_frecuency+leftNode->_frecuency;
+        TreeElement* combinatedNode=new TreeElement(nameTree.str(),frecuency);
+        characters.pop_back();
+        characters.push_back(combinatedNode);
+        treeNode=new TreeNode(*combinatedNode);
+        treeNode->AddChild(treeVector[treeVector.size()-2]);
+        treeNode->AddChild(treeVector[treeVector.size()-1]);
+        treeVector.pop_back();
+        treeVector.pop_back();
+        treeVector.push_back(treeNode);
+
+        for(int i=0;i<characters.size();i++){
+            for(int j=i+1;j<characters.size();j++){
+                if(characters[i]->_frecuency<characters[j]->_frecuency){
+                    TreeNode* tmp=treeVector[i];
+                    TreeElement* temp=characters[i]; 
+                    characters[i]=characters[j]; 
+                    treeVector[i]=treeVector[j];
+                    characters[j]=temp; 
+                    treeVector[j]=tmp;
+                }
+            }
+        }
+        cout<<"Element: "<<treeNode->GetData()._element<<" Frecuency: "<<treeNode->GetData()._frecuency<<endl;
+        cout<<"Character: "<<characters[characters.size()-1]->_element<<" Frecuency: "<<characters[characters.size()-1]->_frecuency<<endl;
+    }
 }
 
 void PruebaArboles(){
