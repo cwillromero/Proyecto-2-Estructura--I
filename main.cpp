@@ -1,6 +1,6 @@
 #include "treenode.h"
 #include "treeelement.h"
-#include <string>
+#include <string.h>
 #include <algorithm>
 #include <sstream>
 #include <iostream>
@@ -14,7 +14,7 @@ bool SortByFrecuency(TreeElement*, TreeElement*);
 bool SortTreeVectorByFrecuency(TreeNode*, TreeNode*);
 void PrintFrecuencyVector(vector <TreeElement*>);
 vector <TreeNode*>GetTree(vector <TreeElement*>);
-void Huffman(vector <TreeNode*>);
+void Huffman(vector <TreeNode*>, vector <TreeElement*>);
 
 int main(int argc, char* argv[]){
     vector<string> text;
@@ -33,6 +33,7 @@ int main(int argc, char* argv[]){
     sort(characters.begin(), characters.end(), SortByFrecuency);
     PrintFrecuencyVector(characters);
     tree=GetTree(characters);
+    //Huffman(tree,characters);
 }
 
 vector<string> GetText(char* argv[]){
@@ -104,10 +105,11 @@ void PrintFrecuencyVector(vector <TreeElement*> characters){
 
 vector <TreeNode*>GetTree(vector <TreeElement*> characters){
     vector<TreeNode*> treeVector;
-    for(int i=0; i<characters.size(); i++){
-        treeVector.push_back(new TreeNode(*characters[i]));
-    }
     TreeNode* treeNode;
+    for(int i=0; i<characters.size(); i++){
+        treeNode=(new TreeNode(*characters[i]));
+        treeVector.push_back(treeNode);
+    }
     while (treeVector.size()>1){
         stringstream nameTree;
         int frecuency;
@@ -125,12 +127,50 @@ vector <TreeNode*>GetTree(vector <TreeElement*> characters){
         sort(treeVector.begin(), treeVector.end(), SortTreeVectorByFrecuency);
         cout<<"Element: "<<treeNode->GetData()._element<<" Frecuency: "<<treeNode->GetData()._frecuency<<endl;
     }
+    return treeVector;
 }
 
-void Huffman(vector <TreeNode*> treeNodes){
-    vector<string> codification;
-    stringstream number;
-    
+void Huffman(vector <TreeNode*> treeNodes, vector <TreeElement*> characters){
+    TreeNode* tree=treeNodes[0];
+    cout<<"*Element: "<<tree->GetData()._element<<" Frecuency: "<<tree->GetData()._frecuency<<endl;
+    sort(characters.begin(), characters.end(), SortByElement);
+    while(true){
+        if(tree->IsLeaf()){
+            break;
+        }else{    
+            tree=tree->GetChildren()[0];
+            cout<<"Element: "<<tree->GetData()._element<<" Frecuency: "<<tree->GetData()._frecuency<<endl;
+        }
+    }
+    //PrintFrecuencyVector(characters);
+    /*for(int i=0; i<characters.size(); i++){
+        while(true){
+            if(characters[i]->_frecuency>tree->GetData()._frecuency){
+                tree=tree->GetChildren()[0];
+                code<<"1";
+            }else{
+                tree=tree->GetChildren()[1];
+                code<<"0";
+            }
+            if(strcmp(tree->GetData()._element.c_str(),characters[i]->_element.c_str())){
+                break;
+            }
+        }
+        cout<<"{Key: "<<characters[i]->_element<<", code: "<<code.str()<<"}"<<endl;
+        if(characters[4]->_frecuency>tree->GetData()._frecuency){
+                tree=tree->GetChildren()[1];
+                cout<<"0";
+            }else{
+                tree=tree->GetChildren()[0];
+                cout<<"1";
+            }
+            if(strcmp(tree->GetData()._element.c_str(),characters[1]->_element.c_str())){
+                cout<<"Si"<<endl;
+                break;
+            }else{
+                cout<<"Hola"<<endl;
+            }
+    }*/
 }
 
 

@@ -36,17 +36,7 @@ vector<TreeNode*>& TreeNode::GetChildren(){
 } 
 
 void TreeNode::SetParent(TreeNode* parent){
-    /*for(int i=0; i<_parent->_children.size(); i++){
-        if(_parent->_children[i]==this){
-            for(int j=i; j<_parent->_children.size()-1; j++){
-                _parent->_children[j]=_parent->_children[j+1];
-            }
-            _parent->_children[_parent->_children.size()-1]=nullptr;
-        }
-    }
-    _parent->_children.pop_back();*/
     _parent=parent;
-    _children.insert(_children.begin(), this);
 }
 
 void TreeNode::AddChild(const TreeElement& data){
