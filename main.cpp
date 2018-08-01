@@ -35,6 +35,7 @@ int main(int argc, char* argv[]){
     cout<<"***Element: "<<tree[0]->GetData()._element<<" Frecuency: "<<tree[0]->GetData()._frecuency<<endl;
     for(int i=0; i<characters.size(); i++){
         string code;
+        vector <string> _code;
         cout<<characters[i]->_element;;
         code=Huffman(tree[0], characters[i]);
         cout<<": "<<code<<endl;
@@ -134,20 +135,22 @@ vector <TreeNode*>GetTree(vector <TreeElement*> characters){
     return treeVector;
 }
 
-string Huffman(TreeNode* tree, TreeElement* treeElement){
+string Huffman(TreeNode* treeNode, TreeElement* treeElement){
+    TreeNode* tree=new TreeNode(*treeElement);
+    tree=treeNode;
     vector< TreeNode*> stack;
     vector <string> code;
     int cont=0;
-    while(true){
+   while(true){
         if(!tree->IsLeaf()){
             stack.push_back(tree);
             cout<<"**"<<tree->GetData()._element<<endl;
             tree=tree->GetChildren()[0];
-            usleep(1000000);
+            //usleep(1000000);
             code.push_back("1");
         }else{
             cout<<"**"<<tree->GetData()._element<<endl;
-            usleep(1000000);
+            //usleep(1000000);
             if(tree->GetData()._element==treeElement->_element){
                 stringstream _code;
                 for(int i=0; i<code.size();i++){
@@ -160,24 +163,26 @@ string Huffman(TreeNode* tree, TreeElement* treeElement){
                 tree=tree->GetChildren()[1];
                 code.push_back("0");
                 cout<<"**"<<tree->GetData()._element<<endl;
-                usleep(1000000);
+                //usleep(1000000);
             }
         }
         if(stack[stack.size()-1]->GetChildren()[1]->GetData()._element == tree->GetData()._element){
-            if(tree->GetData()._element==treeElement->_element){
+            if(tree->IsLeaf()){
+                if(tree->GetData()._element==treeElement->_element){
                 stringstream _code;
                 for(int i=0; i<code.size();i++){
                     _code<<code[i];
                 }
                 return _code.str();
+                }
+                tree=stack[stack.size()-1];
+                tree->MakeLeaf();
+                stack.pop_back();
+                code.pop_back();
             }
-            stack.pop_back();
-            code.pop_back();
-            code.pop_back();
-            tree=stack[stack.size()-1]->GetChildren()[1];
-            code.push_back("0");
         }
     }
 }
+
 
 
