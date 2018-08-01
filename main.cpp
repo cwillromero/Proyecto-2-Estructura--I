@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
     vector <TreeNode*> tree;
     characters=GetFrecuencyVector(text);
     sort(characters.begin(), characters.end(), SortTreeElements);
-    PrintFrecuencyVector(characters);
+    //PrintFrecuencyVector(characters);
     tree=GetTree(characters);
     //cout<<"***Element: "<<tree[0]->GetData()._element<<" Frecuency: "<<tree[0]->GetData()._frecuency<<endl;
     for(int i=0; i<characters.size(); i++){
@@ -105,8 +105,8 @@ bool SortTreeNodes(TreeNode* treeNodeA, TreeNode *treeNodeB) {
 void PrintFrecuencyVector(vector <TreeElement*> characters){
     int cont=0;
     for(int j=0; j<characters.size(); j++){
-        cont=cont+characters[j]->_frecuency;
-        cout<<"{element: "<<characters[j]->_element<<", frecuency: "<<characters[j]->_frecuency<<"}"<<endl;
+        //cont=cont+characters[j]->_frecuency;
+        //cout<<"{element: "<<characters[j]->_element<<", frecuency: "<<characters[j]->_frecuency<<"}"<<endl;
     }
     //cout<<cont<<endl;
 }
