@@ -69,7 +69,3 @@ bool TreeNode::IsLeaf()const{
     else
         return false;
 }
-
-void TreeNode::MakeLeaf(){
-    _children.clear();
-}

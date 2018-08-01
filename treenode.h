@@ -22,6 +22,5 @@ public:
 	void SetData(const TreeElement&);
 	bool IsRoot()const;
 	bool IsLeaf()const;
-	void MakeLeaf();
 };
 
