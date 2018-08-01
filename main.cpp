@@ -32,13 +32,11 @@ int main(int argc, char* argv[]){
     sort(characters.begin(), characters.end(), SortTreeElements);
     PrintFrecuencyVector(characters);
     tree=GetTree(characters);
-    cout<<"***Element: "<<tree[0]->GetData()._element<<" Frecuency: "<<tree[0]->GetData()._frecuency<<endl;
+    //cout<<"***Element: "<<tree[0]->GetData()._element<<" Frecuency: "<<tree[0]->GetData()._frecuency<<endl;
     for(int i=0; i<characters.size(); i++){
         string code;
-        vector <string> _code;
-        cout<<characters[i]->_element;;
         code=Huffman(tree[0], characters[i]);
-        cout<<": "<<code<<endl;
+        cout<<"{key: "<<characters[i]->_element<<", code: "<<code<<"}"<<endl;
     }
 }
 
@@ -61,7 +59,7 @@ vector<string> GetText(char* argv[]){
         }
         file.close();
     }
-    retVal.pop_back();
+    //retVal.pop_back();
     return retVal;
 }
 
@@ -70,7 +68,7 @@ vector<TreeElement*> GetFrecuencyVector(vector<string> text){
     TreeElement* element=new TreeElement(text[0]);
     characters.push_back(element);
     string character;
-    cout<<"Size Text"<<text.size()<<endl;
+    //cout<<"Size Text"<<text.size()<<endl;
     for(int i=1; i<text.size(); i++){
         int cont=0;
         character=text[i];
@@ -90,23 +88,27 @@ vector<TreeElement*> GetFrecuencyVector(vector<string> text){
 
 bool SortTreeElements(TreeElement* treeElementA, TreeElement *treeElementB) { 
     if(treeElementA->_frecuency == treeElementB->_frecuency){
-        return treeElementA->_element > treeElementB->_element;
+        return treeElementA->_element > treeElementB->_element ;
     }else{
         return treeElementA->_frecuency > treeElementB->_frecuency;
     }
 }
 
 bool SortTreeNodes(TreeNode* treeNodeA, TreeNode *treeNodeB) { 
-    return treeNodeA->GetData()._frecuency > treeNodeB->GetData()._frecuency;
+    if(treeNodeA->GetData()._frecuency == treeNodeB->GetData()._frecuency){
+        return treeNodeA->GetData()._element > treeNodeB->GetData()._element;
+    }else{
+        return treeNodeA->GetData()._frecuency > treeNodeB->GetData()._frecuency;
+    }
 }
 
 void PrintFrecuencyVector(vector <TreeElement*> characters){
     int cont=0;
     for(int j=0; j<characters.size(); j++){
         cont=cont+characters[j]->_frecuency;
-        cout<<"Character: "<<characters[j]->_element<<"     Frecuency: "<<characters[j]->_frecuency<<endl;
+        cout<<"{element: "<<characters[j]->_element<<", frecuency: "<<characters[j]->_frecuency<<"}"<<endl;
     }
-    cout<<cont<<endl;
+    //cout<<cont<<endl;
 }
 
 vector <TreeNode*>GetTree(vector <TreeElement*> characters){
@@ -130,26 +132,42 @@ vector <TreeNode*>GetTree(vector <TreeElement*> characters){
         treeVector.pop_back();
         treeVector.push_back(treeNode);
         sort(treeVector.begin(), treeVector.end(), SortTreeNodes);
-        cout<<"Element: "<<treeNode->GetData()._element<<" Frecuency: "<<treeNode->GetData()._frecuency<<endl;
+        //cout<<"Element: "<<treeNode->GetData()._element<<" Frecuency: "<<treeNode->GetData()._frecuency<<endl;
     }
     return treeVector;
 }
 
 string Huffman(TreeNode* treeNode, TreeElement* treeElement){
-    TreeNode* tree=new TreeNode(*treeElement);
-    tree=treeNode;
+    TreeNode* tree=treeNode;
     vector< TreeNode*> stack;
-    vector <string> code;
-    int cont=0;
-   while(true){
-        if(!tree->IsLeaf()){
+    stringstream code;
+    //int cont=0;
+   while(!tree->IsLeaf()){
+        //cout<<"**"<<tree->GetData()._element<<endl;
+        //usleep(1000000);
+        if(tree->GetChildren()[0]->GetData()._element.find(treeElement->_element) != std::string::npos){
+            tree=tree->GetChildren()[0];
+            code<<"1";
+            if(tree->GetData()._element==treeElement->_element){
+                return code.str();
+            }
+        }else{
+            tree=tree->GetChildren()[1];
+            code<<"0";
+            if(tree->GetData()._element==treeElement->_element){
+                return code.str();
+            }
+            
+        }
+
+       /* if(!tree->IsLeaf()){
             stack.push_back(tree);
-            cout<<"**"<<tree->GetData()._element<<endl;
+            //cout<<"**"<<tree->GetData()._element<<endl;
             tree=tree->GetChildren()[0];
             //usleep(1000000);
             code.push_back("1");
         }else{
-            cout<<"**"<<tree->GetData()._element<<endl;
+            //cout<<"**"<<tree->GetData()._element<<endl;
             //usleep(1000000);
             if(tree->GetData()._element==treeElement->_element){
                 stringstream _code;
@@ -162,7 +180,7 @@ string Huffman(TreeNode* treeNode, TreeElement* treeElement){
                 tree=stack[stack.size()-1];
                 tree=tree->GetChildren()[1];
                 code.push_back("0");
-                cout<<"**"<<tree->GetData()._element<<endl;
+                //cout<<"**"<<tree->GetData()._element<<endl;
                 //usleep(1000000);
             }
         }
@@ -180,7 +198,7 @@ string Huffman(TreeNode* treeNode, TreeElement* treeElement){
                 stack.pop_back();
                 code.pop_back();
             }
-        }
+        }*/
     }
 }
 
