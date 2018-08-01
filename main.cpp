@@ -9,9 +9,8 @@ using namespace std;
 
 vector<string> GetText(char*[]);
 vector <TreeElement*> GetFrecuencyVector(vector <string>);
-bool SortByElement(TreeElement*, TreeElement*);
-bool SortByFrecuency(TreeElement*, TreeElement*);
-bool SortTreeVectorByFrecuency(TreeNode*, TreeNode*);
+bool SortTreeElements(TreeElement*, TreeElement*);
+bool SortTreeNodes(TreeNode*, TreeNode*);
 void PrintFrecuencyVector(vector <TreeElement*>);
 vector <TreeNode*>GetTree(vector <TreeElement*>);
 void Huffman(vector <TreeNode*>, vector <TreeElement*>);
@@ -29,8 +28,7 @@ int main(int argc, char* argv[]){
     vector <TreeElement*> characters;
     vector <TreeNode*> tree;
     characters=GetFrecuencyVector(text);
-    sort(characters.begin(), characters.end(), SortByElement);
-    sort(characters.begin(), characters.end(), SortByFrecuency);
+    sort(characters.begin(), characters.end(), SortTreeElements);
     PrintFrecuencyVector(characters);
     tree=GetTree(characters);
     Huffman(tree,characters);
@@ -82,16 +80,16 @@ vector<TreeElement*> GetFrecuencyVector(vector<string> text){
     return characters;
 }
 
-bool SortByElement(TreeElement* elementoMayor, TreeElement *elementoMenor) { 
-    return elementoMayor->_element > elementoMenor->_element;
+bool SortTreeElements(TreeElement* treeElementA, TreeElement *treeElementB) { 
+    if(treeElementA->_frecuency == treeElementB->_frecuency){
+        return treeElementA->_element > treeElementB->_element;
+    }else{
+        return treeElementA->_frecuency > treeElementB->_frecuency;
+    }
 }
 
-bool SortByFrecuency(TreeElement* elementoMayor, TreeElement *elementoMenor) { 
-    return elementoMayor->_frecuency > elementoMenor->_frecuency;
-}
-
-bool SortTreeVectorByFrecuency(TreeNode* elementoMayor, TreeNode *elementoMenor) { 
-    return elementoMayor->GetData()._frecuency > elementoMenor->GetData()._frecuency;
+bool SortTreeNodes(TreeNode* treeNodeA, TreeNode *treeNodeB) { 
+    return treeNodeA->GetData()._frecuency > treeNodeB->GetData()._frecuency;
 }
 
 void PrintFrecuencyVector(vector <TreeElement*> characters){
@@ -110,13 +108,12 @@ vector <TreeNode*>GetTree(vector <TreeElement*> characters){
         treeNode=(new TreeNode(*characters[i]));
         treeVector.push_back(treeNode);
     }
+    sort(treeVector.begin(), treeVector.end(), SortTreeNodes);
     while (treeVector.size()>1){
         stringstream nameTree;
         int frecuency;
-        TreeElement leftNode=treeVector[treeVector.size()-1]->GetData();
-        TreeElement rightNode=treeVector[treeVector.size()-2]->GetData();
-        nameTree<<leftNode._element<<rightNode._element;
-        frecuency=rightNode._frecuency+leftNode._frecuency;
+        nameTree<<treeVector[treeVector.size()-1]->GetData()._element<<treeVector[treeVector.size()-2]->GetData()._element;
+        frecuency=treeVector[treeVector.size()-1]->GetData()._frecuency+treeVector[treeVector.size()-2]->GetData()._frecuency;
         TreeElement* combinatedNode=new TreeElement(nameTree.str(),frecuency);
         treeNode=new TreeNode(*combinatedNode);
         treeNode->AddChild(treeVector[treeVector.size()-2]);
@@ -124,7 +121,7 @@ vector <TreeNode*>GetTree(vector <TreeElement*> characters){
         treeVector.pop_back();
         treeVector.pop_back();
         treeVector.push_back(treeNode);
-        sort(treeVector.begin(), treeVector.end(), SortTreeVectorByFrecuency);
+        sort(treeVector.begin(), treeVector.end(), SortTreeNodes);
         cout<<"Element: "<<treeNode->GetData()._element<<" Frecuency: "<<treeNode->GetData()._frecuency<<endl;
     }
     return treeVector;
