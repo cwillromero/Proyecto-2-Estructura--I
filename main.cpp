@@ -36,7 +36,15 @@ int main(int argc, char* argv[]){
     for(int i=0; i<characters.size(); i++){
         string code;
         code=Huffman(tree[0], characters[i]);
-        cout<<"{key: "<<characters[i]->_element<<", code: "<<code<<"}"<<endl;
+        if(int(characters[i]->_element[0])==32){
+            cout<<"{key: "<<"SP"<<", code: "<<code<<"}"<<endl;
+        }else if(int(characters[i]->_element[0])==10){
+            cout<<"{key: "<<"LF"<<", code: "<<code<<"}"<<endl;
+        }else if(int(characters[i]->_element[0])==13){
+            cout<<"{key: "<<"CR"<<", code: "<<code<<"}"<<endl;
+        }else{
+            cout<<"{key: "<<characters[i]->_element<<", code: "<<code<<"}"<<endl;
+        }
     }
 }
 
@@ -47,13 +55,13 @@ vector<string> GetText(char* argv[]){
     file.open (argv[1] , ios::in);
     if (file.is_open()) {
         while (file.get(character)) {
-            if(int(character)==32){
+            /*if(int(character)==32){
                 retVal.push_back("SP");
             }else if(int(character)==10){
                 retVal.push_back("LF");
             }else if(int(character)==13){
-                retVal.push_back("CR");
-            }else if(int(character)>0){
+                retVal.push_back("CR");*/
+            if(int(character)>0){
                 retVal.push_back(string(1,character));
             }
         }
